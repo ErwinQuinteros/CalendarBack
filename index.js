@@ -2,7 +2,6 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 require('dotenv').config()
 
-console.log(process.env)
 // create server of express
 const app = express();
 

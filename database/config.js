@@ -2,15 +2,13 @@ const mongoose = require('mongoose');
 
 const dbConnection = async() => {
     try {
-        mongoose.connect( process.env.DB_CNN {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true
+        await mongoose.connect(process.env.DB_CNN, {
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true,
         });
 
     } catch (error) {
-        console.log(error)
-        throw new Error('Error en la ...')
+        console.error('Error al conectar a MongoDB:', error);
     }
 }
 
