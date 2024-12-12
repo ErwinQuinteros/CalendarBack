@@ -1,11 +1,14 @@
 const { response } = require('express');
+const { validationResult } = require('express-validator')
 
 
 const crearUsuario = (req, res = response) => {
 
-    const {name, email, password} = req.body;
-    res.json({
-        ok:true,
+    const { name, email, password } = req.body;
+
+
+    res.status(201).json({
+        ok: true,
         msg: 'registro',
         name,
         email,
@@ -14,19 +17,21 @@ const crearUsuario = (req, res = response) => {
 }
 
 const loginUsuario = (req, res = response) => {
-     const { email, password} = req.body;
-    res.json({
-        ok:true,
+    const { email, password } = req.body;
+   
+    
+    res.status(201).json({
+        ok: true,
         msg: 'login',
         email,
         password
     });
 }
 
-const revalidarToken = (req, res = response ) => {
-    
+const revalidarToken = (req, res = response) => {
+
     res.json({
-        ok:true,
+        ok: true,
         msg: 'renew'
     });
 }

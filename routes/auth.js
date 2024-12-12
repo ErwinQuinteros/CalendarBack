@@ -5,12 +5,30 @@
 
 const { Router } = require('express');
 const router = Router();
-const { crearUsuario, loginUsuario, revalidarToken
-} = require('../controllers/auth')
+const { check } = require('express-validator')
 
-router.post('/new', crearUsuario);
+const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { validateFields } = require('../middlewares/validations');
 
-router.post('/', loginUsuario);
+
+
+router.post(
+    '/new',
+    [
+        check('name', 'El nombre es obligatorio').not().isEmpty(),
+        check('email', 'El email debe ser válido').isEmail(),
+        check('password', 'El password debe tener al menos 6 caracteres').isLength({ min: 6 }),
+        validateFields
+    ],
+    crearUsuario );
+
+router.post('/', 
+    [
+        check('email', 'El email debe ser válido').isEmail(),
+        check('password', 'El password debe tener al menos 6 caracteres').isLength({ min: 6 }),
+        validateFields
+    ],
+    loginUsuario);
 
 
 router.get('/renew', revalidarToken);
