@@ -1,7 +1,8 @@
 const { response } = require("express");
 const bcrypt = require('bcryptjs')
 const User = require("../models/user");
-const { generarJWT } = require('../helpers/jwt')
+const { generarJWT } = require('../helpers/jwt');
+const user = require("../models/user");
 
 const crearUsuario = async (req, res = response) => {
     
@@ -11,7 +12,7 @@ const crearUsuario = async (req, res = response) => {
 
         let user = await User.findOne({ email })
         if( user ) {
-            res.status(400).json({
+               return res.status(400).json({
                 ok: false,
                 msg: "The user exists with this email",
             });
@@ -76,10 +77,16 @@ const loginUsuario = async (req, res = response) => {
 };
 
 
-const revalidarToken = (req, res = response) => {
+const revalidarToken = async (req, res = response) => {
+
+    const { uid, name } = req;
+
+    const token = await generarJWT( uid, name )
+
     res.json({
         ok: true,
-        msg: "renew",
+        uid, name,
+        token
     });
 };
 

@@ -16,7 +16,8 @@ app.use( express.json() );
 
 // rutas
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/events', require('./routes/events'));
 
 app.listen(process.env.PORT, () => {
-    console.log(`listening at ${process.env.PORT}`)
+    console.log(`localhost://${process.env.PORT}`)
 })
