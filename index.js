@@ -1,23 +1,32 @@
 const express = require('express');
 const { dbConnection } = require('./database/config');
-require('dotenv').config()
+require('dotenv').config();
+const cors = require('cors');
 
-// create server of express
+// Crear la instancia de Express
 const app = express();
 
-// database
+// Configurar CORS
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true, 
+}));
+
+// Conexión a la base de datos
 dbConnection();
 
-// directorio publico
-app.use( express.static('public') );
+// Directorio público
+app.use(express.static('public'));
 
-// lectura y parseo del body
-app.use( express.json() );
+// Lectura y parseo del body
+app.use(express.json());
 
-// rutas
+// Rutas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 
+// Iniciar el servidor
 app.listen(process.env.PORT, () => {
-    console.log(`localhost://${process.env.PORT}`)
-})
+    console.log(`Servidor corriendo en http://localhost:${process.env.PORT}`);
+});
